@@ -1,0 +1,65 @@
+# This workflow is named "Android CI" and will appear in the GitHub Actions tab
+name: Android CI
+
+# This specifies when the workflow should run.
+# In this case, it runs on every push to the 'main' branch.
+on:
+  push:
+    branches:
+      - main # Make sure this matches your primary branch name on GitHub (e.g., 'main' or 'master')
+
+# A workflow run is made up of one or more jobs.
+jobs:
+  # This job is named 'build_android'
+  build_android:
+    # This specifies the type of virtual machine (runner) the job will run on.
+    # 'ubuntu-latest' is a standard choice for building Android apps.
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job.
+    steps:
+      # This step checks out your repository code onto the runner.
+      - name: Checkout code
+        # 'uses' indicates that this step is using a pre-defined GitHub Action.
+        # 'actions/checkout@v4' is the standard action for checking out code.
+        uses: actions/checkout@v4
+
+      # This step sets up the Flutter environment on the runner.
+      - name: Set up Flutter
+        # 'subosito/flutter-action@v2' is a popular action for setting up Flutter.
+        uses: subosito/flutter-action@v2
+        with:
+          # Specify the exact Flutter version to use.
+          flutter-version: '3.22.1' # Your specified Flutter version
+          # Specify the Flutter channel (e.g., 'stable', 'beta', 'dev').
+          channel: 'stable'
+
+      # This step fetches all the project dependencies defined in pubspec.yaml.
+      - name: Get dependencies
+        # 'run' executes a command in the runner's shell.
+        run: flutter pub get
+
+      # This step recreates the google-services.json file from the GitHub Secret.
+      # This is crucial for Firebase to work in the build.
+      - name: Create google-services.json
+        # 'echo' prints the content of the secret.
+        # '${{ secrets.GOOGLE_SERVICES_JSON }}' accesses the secret named GOOGLE_SERVICES_JSON.
+        # '>' redirects the output to create the google-services.json file in the correct location.
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > android/app/google-services.json
+        # 'shell: bash' specifies the shell to use for the run command.
+        shell: bash
+
+      # This step builds the Android Debug APK.
+      # We start with debug as it doesn't require signing keys yet.
+      - name: Build Android APK (Debug)
+        run: flutter build apk --debug
+
+      # This step uploads the built APK as an artifact that you can download.
+      - name: Upload APK artifact
+        # 'actions/upload-artifact@v4' is the standard action for uploading build artifacts.
+        uses: actions/upload-artifact@v4
+        with:
+          # The name you want to give to the downloadable artifact.
+          name: debug-apk
+          # The path to the file(s) you want to upload.
+          path: build/app/outputs/apk/debug/app-debug.apk
