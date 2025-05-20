@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
+    // Apply the Kotlin Android plugin using the version defined at the project level
+    id "org.jetbrains.kotlin.android" version "${rootProject.ext.kotlin_version}" // <-- Use the project-wide version
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
     // Apply the Google Services plugin to the 'app' module
@@ -30,8 +31,8 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
-    // ADD THIS LINE: Explicitly set Build Tools Version
-    buildToolsVersion "34.0.0" 
+    // Keep this line if you added it previously to fix Build Tools version
+    buildToolsVersion "34.0.0"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -73,4 +74,6 @@ dependencies {
 
     // Multidex support (optional, but recommended for Firebase apps)
     implementation 'androidx.multidex:multidex:2.0.1' // Ensure this dependency is here if multiDexEnabled is true
+
+    // Keep any other dependencies you have here
 }
