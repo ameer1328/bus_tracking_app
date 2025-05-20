@@ -1,9 +1,5 @@
 buildscript {
     repositories {
-        maven {
-            url uri('C:/local-maven-repo') // <- Your local path
-        }
-
         google()
         mavenCentral()
     }
