@@ -1,38 +1,53 @@
-// android/build.gradle
-
-ext.kotlin_version = '1.9.0' //  Use at least Kotlin 1.9.0
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    // Ensure these repositories are included
     repositories {
-        google()
-        mavenCentral()
+        google()  // Google's Maven repository
+        mavenCentral() // Maven Central repository
+    }
+    // *** IMPORTANT: The plugins {} block must come BEFORE the dependencies {} block here ***
+    plugins {
+        // This line applies the Google Services plugin to the buildscript classpath.
+        // It's crucial for processing google-services.json.
+        id 'com.google.gms.google-services' version '4.4.2' apply false // <-- This line MUST be inside this plugins block
+        // If you had other buildscript-specific plugins applied with 'id', they would go here.
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.4.1'
-        classpath 'com.google.gms:google-services:4.4.2'
-    }
-    plugins {
-        id 'com.google.gms.google-services' version '4.4.2' apply false
+        // Add the dependency for the Android Gradle Plugin
+        // This is needed to build the Android part of your Flutter app
+        classpath 'com.android.tools.build:gradle:8.4.1' // Use the latest version if needed
+
+        // Add the dependency for the Google services Gradle plugin
+        // This is needed to process the google-services.json file
+        classpath 'com.google.gms:google-services:4.4.2' // Use the latest version from Firebase documentation
+
+        // *** IMPORTANT: The Kotlin Gradle plugin classpath should NOT be here if you apply it in app/build.gradle plugins block ***
+        // If you see a line like: classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:..."
+        // DELETE or COMMENT OUT THAT LINE to avoid conflicts.
     }
 }
 
+// This allprojects block configures repositories for all modules in the project
+// Modules like 'app' will inherit these repositories.
 allprojects {
     repositories {
-        google()
-        mavenCentral()
+        google() // Google's Maven repository
+        mavenCentral() // Maven Central repository
+        // Add other repositories if needed for other dependencies
     }
 }
 
+// Define build directories for subprojects
 rootProject.buildDir = "../build"
-
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
-
 subprojects {
     project.evaluationDependsOn(":app")
 }
 
+// Task to clean the build directory
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
