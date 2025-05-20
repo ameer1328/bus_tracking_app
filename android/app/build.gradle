@@ -1,12 +1,8 @@
 plugins {
     id "com.android.application"
-    // Apply the Kotlin Android plugin using the version defined at the project level
-    // Corrected syntax for referencing the variable: ${variable_name}
-    id "org.jetbrains.kotlin.android" version "${rootProject.ext.kotlin_version}" // <-- Corrected line
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "org.jetbrains.kotlin.android" version "1.9.0" // ✅ Hardcoded to fix error
     id "dev.flutter.flutter-gradle-plugin"
-    // Apply the Google Services plugin to the 'app' module
-    id "com.google.gms.google-services" // <-- Applied at the top level of the app module
+    id "com.google.gms.google-services"
 }
 
 def localProperties = new Properties()
@@ -32,7 +28,6 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
-    // Keep this line if you added it previously to fix Build Tools version
     buildToolsVersion "34.0.0"
 
     compileOptions {
@@ -41,20 +36,17 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID
         applicationId = "com.example.bus_tracking_app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
 
-        // Optional for Firebase + multidex (if your method count exceeds 64k)
         multiDexEnabled true
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
             signingConfig = signingConfigs.debug
         }
     }
@@ -65,16 +57,10 @@ flutter {
 }
 
 dependencies {
-    // Import the Firebase BoM (Bill of Materials) to manage Firebase versions
-    implementation platform('com.google.firebase:firebase-bom:33.13.0') // Use the latest version from Firebase docs
+    implementation platform('com.google.firebase:firebase-bom:33.13.0')
 
-    // Add the dependencies for the Firebase products you want to use
-    // When using the BoM, you don't specify versions for Firebase library dependencies
-    implementation 'com.google.firebase:firebase-analytics' // Example: Firebase Analytics
-    implementation 'com.google.firebase:firebase-database' // For Realtime Database
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-database'
 
-    // Multidex support (optional, but recommended for Firebase apps)
-    implementation 'androidx.multidex:multidex:2.0.1' // Ensure this dependency is here if multiDexEnabled is true
-
-    // Keep any other dependencies you have here
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
