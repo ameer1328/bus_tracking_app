@@ -1,9 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-// Add this line to define the Kotlin version
-ext.kotlin_version = '1.9.0' // Set to a compatible version
-
 buildscript {
+    // Define variables accessible within the buildscript block here
+    ext {
+        kotlin_version = '1.9.0' // Define Kotlin version inside buildscript ext block
+    }
     repositories {
         google()
         mavenCentral()
@@ -12,8 +13,8 @@ buildscript {
         classpath 'com.android.tools.build:gradle:8.4.1'
         // Keep google-services classpath if you are using Firebase
         classpath 'com.google.gms:google-services:4.4.2'
-        // Add the Kotlin Gradle plugin classpath
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" // Use the defined version
+        // Add the Kotlin Gradle plugin classpath, now using the accessible variable
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
