@@ -30,6 +30,9 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+    // ADD THIS LINE: Explicitly set Build Tools Version
+    buildToolsVersion "34.0.0" 
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -71,6 +74,3 @@ dependencies {
     // Multidex support (optional, but recommended for Firebase apps)
     implementation 'androidx.multidex:multidex:2.0.1' // Ensure this dependency is here if multiDexEnabled is true
 }
-
-
-
