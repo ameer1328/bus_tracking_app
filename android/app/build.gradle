@@ -1,6 +1,6 @@
 plugins {
     id "com.android.application"
-    id "org.jetbrains.kotlin.android" version "1.9.0" // ✅ Hardcoded to fix error
+    id "org.jetbrains.kotlin.android" // ✅ Do NOT specify version here
     id "dev.flutter.flutter-gradle-plugin"
     id "com.google.gms.google-services"
 }
@@ -41,7 +41,6 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
-
         multiDexEnabled true
     }
 
@@ -58,9 +57,7 @@ flutter {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:33.13.0')
-
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-database'
-
     implementation 'androidx.multidex:multidex:2.0.1'
 }
