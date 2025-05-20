@@ -10,7 +10,7 @@ pluginManagement {
     includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
 
     repositories {
-        maven { url uri("C:/local-maven-repo") }
+        m//aven { url uri("C:/local-maven-repo") }
 
         google()
         mavenCentral()
